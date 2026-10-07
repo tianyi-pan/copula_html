@@ -49,6 +49,16 @@
     line-height: 1.35;
   }
 
+  #quarto-sidebar-toc-left #TOC a[aria-current="location"] {
+    font-weight: 600;
+    color: var(--bs-link-color, #0d6efd);
+    background-color: rgba(13, 110, 253, 0.08);
+  }
+
+  #quarto-document-content :is(section[id], h1, h2, h3, h4) {
+    scroll-margin-top: var(--mysun-toc-offset, 1rem);
+  }
+
   #quarto-content > #quarto-document-content {
     grid-column: 2;
     grid-row: 1;
@@ -101,8 +111,7 @@
     grid-row: 2;
   }
 
-  #quarto-document-content :is(h1, h2, h3, h4) {
-    scroll-margin-top: calc(35vh + 1rem);
-    scroll-margin-top: calc(35dvh + 1rem);
+  #quarto-document-content :is(section[id], h1, h2, h3, h4) {
+    scroll-margin-top: var(--mysun-toc-offset, calc(35vh + 1rem));
   }
 }

@@ -3019,6 +3019,104 @@ write.csv(iteration_cv_status, file.path("results", "iteration_cv_status.csv"), 
 
 </main>
 <!-- /main column -->
+<script>
+(() => {
+  const sidebar = document.getElementById("quarto-sidebar-toc-left");
+  const toc = document.getElementById("TOC");
+  const article = document.getElementById("quarto-document-content");
+  if (!sidebar || !toc || !article) return;
+
+  // Run as a classic inline script, including when the report is opened locally.
+  // Disable Quarto's competing tracker before its DOMContentLoaded handler runs.
+  toc.classList.remove("toc-active");
+  const entries = Array.from(toc.querySelectorAll('a[href^="#"]'))
+    .map(link => {
+      const target = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+      const heading = target && Array.from(target.children)
+        .find(child => /^H[1-6]$/.test(child.tagName));
+      return { link, target, heading: heading || target };
+    })
+    .filter(entry => entry.heading && article.contains(entry.heading));
+  if (!entries.length) return;
+
+  let active = -1;
+  let queued = false;
+  let revealAfterResize = false;
+
+  function contentOffset() {
+    const box = sidebar.getBoundingClientRect();
+    const aboveArticle = window.matchMedia("(max-width: 767.98px)").matches;
+    const sticky = getComputedStyle(sidebar).position === "sticky";
+    return aboveArticle && sticky && box.top <= 1 && box.bottom > 0
+      ? box.bottom + 16 : 16;
+  }
+
+  function keepLinkVisible(link) {
+    const box = sidebar.getBoundingClientRect();
+    const item = link.getBoundingClientRect();
+    const top = Math.max(0, box.top) + 12;
+    const bottom = Math.min(window.innerHeight, box.bottom) - 12;
+    // Move only the Contents panel; never jump the article while reading it.
+    if (item.top < top) sidebar.scrollTop += item.top - top;
+    else if (item.bottom > bottom) sidebar.scrollTop += item.bottom - bottom;
+  }
+
+  function update() {
+    queued = false;
+    const offset = contentOffset();
+    document.documentElement.style.setProperty("--mysun-toc-offset", `${offset}px`);
+    const readingLine = offset + 48;
+    let current = 0;
+    entries.forEach((entry, index) => {
+      if (entry.heading.getBoundingClientRect().top <= readingLine) current = index;
+    });
+
+    const page = document.scrollingElement || document.documentElement;
+    if (page.scrollHeight > window.innerHeight + 2 &&
+        window.scrollY + window.innerHeight >= page.scrollHeight - 2) {
+      current = entries.length - 1;
+    }
+
+    if (current !== active) {
+      entries.forEach(({ link }, index) => {
+        link.classList.toggle("active", index === current);
+        if (index === current) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+      active = current;
+      keepLinkVisible(entries[current].link);
+    } else if (revealAfterResize) {
+      keepLinkVisible(entries[current].link);
+    }
+    revealAfterResize = false;
+  }
+
+  function schedule() {
+    if (!queued) {
+      queued = true;
+      window.requestAnimationFrame(update);
+    }
+  }
+
+  document.addEventListener("scroll", event => {
+    if (!sidebar.contains(event.target)) schedule();
+  }, { passive: true, capture: true });
+  window.addEventListener("resize", () => {
+    revealAfterResize = true;
+    schedule();
+  });
+  window.addEventListener("hashchange", schedule);
+  window.addEventListener("pageshow", schedule);
+  window.addEventListener("load", schedule);
+  if (window.ResizeObserver) {
+    const observer = new ResizeObserver(schedule);
+    observer.observe(article);
+    observer.observe(sidebar);
+  }
+  if (document.fonts) document.fonts.ready.then(schedule);
+  schedule();
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
