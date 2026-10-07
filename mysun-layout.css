@@ -1,0 +1,108 @@
+/* Keep the Contents navigation readable even when preview scripts are disabled. */
+@media screen {
+  #quarto-content {
+    display: grid;
+    grid-template-columns: 18rem minmax(0, 1fr);
+    grid-template-rows: auto;
+    gap: 2rem;
+    width: calc(100% - 3rem);
+    max-width: 90rem;
+    margin-inline: auto;
+    align-items: start;
+  }
+
+  #quarto-content > #quarto-sidebar-toc-left {
+    display: block !important;
+    grid-column: 1;
+    grid-row: 1;
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+    width: auto;
+    max-height: calc(100vh - 2rem);
+    max-height: calc(100dvh - 2rem);
+    padding: 0.5rem 0.75rem 0.75rem 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+    overscroll-behavior-y: contain;
+    border-right: 1px solid var(--quarto-border-color, #ddd);
+    background: var(--quarto-body-bg, white);
+  }
+
+  #quarto-sidebar-toc-left #TOC {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    font-size: 0.875rem;
+  }
+
+  #quarto-sidebar-toc-left #TOC ul.collapse {
+    display: block !important;
+    height: auto !important;
+  }
+
+  #quarto-sidebar-toc-left #TOC a {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+    line-height: 1.35;
+  }
+
+  #quarto-content > #quarto-document-content {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  #quarto-content > #quarto-margin-sidebar {
+    display: none;
+  }
+
+  #quarto-document-content .cell-output-display {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1100px) {
+  #quarto-content {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: 1.25rem;
+    width: calc(100% - 2rem);
+  }
+}
+
+/* In a narrow preview, keep Contents visible above the article without overlap. */
+@media screen and (max-width: 767.98px) {
+  #quarto-content {
+    display: block;
+    width: calc(100% - 1.5rem);
+  }
+
+  #quarto-content > #quarto-sidebar-toc-left {
+    grid-column: 1;
+    grid-row: 1;
+    top: 0;
+    z-index: 100;
+    max-height: 35vh;
+    max-height: 35dvh;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--quarto-border-color, #ddd);
+  }
+
+  #quarto-content > #quarto-document-content {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #quarto-document-content :is(h1, h2, h3, h4) {
+    scroll-margin-top: calc(35vh + 1rem);
+    scroll-margin-top: calc(35dvh + 1rem);
+  }
+}

@@ -106,6 +106,7 @@ window.Quarto = {
 };
 </script>
 
+<link rel="stylesheet" href="mysun-layout.css">
 </head>
 
 <body class="quarto-light">
@@ -119,6 +120,7 @@ window.Quarto = {
   <li><a href="#sun22-parameterization" id="toc-sun22-parameterization" class="nav-link active" data-scroll-target="#sun22-parameterization">SUN(2,2) Parameterization</a>
   <ul class="collapse">
   <li><a href="#free-parameters-length-10" id="toc-free-parameters-length-10" class="nav-link" data-scroll-target="#free-parameters-length-10">Free parameters (length 10)</a></li>
+  </ul></li>
   <li><a href="#setup-and-simulation" id="toc-setup-and-simulation" class="nav-link" data-scroll-target="#setup-and-simulation">Setup and simulation</a></li>
   <li><a href="#evaluation-grids" id="toc-evaluation-grids" class="nav-link" data-scroll-target="#evaluation-grids">Evaluation grids</a></li>
   <li><a href="#main-analysis" id="toc-main-analysis" class="nav-link" data-scroll-target="#main-analysis">Main analysis</a>
@@ -142,7 +144,6 @@ window.Quarto = {
   <li><a href="#intermediate-censoring-fan-marginals-dependence-and-reconstruction" id="toc-intermediate-censoring-fan-marginals-dependence-and-reconstruction" class="nav-link" data-scroll-target="#intermediate-censoring-fan-marginals-dependence-and-reconstruction">Intermediate censoring: Fan marginals, dependence, and reconstruction</a></li>
   <li><a href="#light-censoring-fan-marginals-dependence-and-reconstruction" id="toc-light-censoring-fan-marginals-dependence-and-reconstruction" class="nav-link" data-scroll-target="#light-censoring-fan-marginals-dependence-and-reconstruction">Light censoring: Fan marginals, dependence, and reconstruction</a></li>
   </ul></li>
-  </ul></li>
   </ul>
 </nav>
 </div>
@@ -153,8 +154,8 @@ window.Quarto = {
 
 
 
-<section id="sun22-parameterization" class="level1">
-<h1>SUN(2,2) Parameterization</h1>
+<section id="sun22-parameterization" class="level2">
+<h2 class="anchored" data-anchor-id="sun22-parameterization">SUN(2,2) Parameterization</h2>
 <p>This note uses the <strong>SUN(2,2)</strong> correlation-scale parameterization from <code>admvn::make_sun22_params</code>: a length-10 free parameter vector mapping to the <code>sn</code> <code>dp</code> list (<code>xi</code>, <code>Omega</code>, <code>Delta</code>, <code>tau=0</code>, <code>Gamma</code>). The focus is a bivariate working sample and product-Gaussian EMS estimates of its dependence.</p>
 <p>A general SUN is <span class="math inline">\(Y = U \mid V &gt; 0\)</span> with</p>
 <p><span class="math display">\[
@@ -175,8 +176,8 @@ V
 \right),
 \]</span></p>
 <p>where <span class="math inline">\(U,V\in\mathbb{R}^2\)</span> and <span class="math inline">\(\xi=(\xi_1,\xi_2)^\top\)</span>.</p>
-<section id="free-parameters-length-10" class="level2">
-<h2 class="anchored" data-anchor-id="free-parameters-length-10">Free parameters (length 10)</h2>
+<section id="free-parameters-length-10" class="level3">
+<h3 class="anchored" data-anchor-id="free-parameters-length-10">Free parameters (length 10)</h3>
 <p><strong>Location.</strong> <span class="math inline">\(\xi_1,\xi_2\)</span>.</p>
 <p><strong>Observed-scale covariance.</strong> Marginal standard deviations <span class="math inline">\(\nu_j&gt;0\)</span> (<span class="math inline">\(\Omega_{jj}=\nu_j^2\)</span>) and free correlation coordinate <span class="math inline">\(\omega_{12}\)</span> for the latent correlation <span class="math inline">\(C_u\)</span>:</p>
 <p><span class="math display">\[
@@ -210,6 +211,7 @@ omega12,
 L11, L12, L21, L22,
 gamma12</code></pre>
 <p><strong>Box constraints.</strong> Package defaults from <code>admvn::sun22_bounds()</code>: diagonals of <span class="math inline">\(L\)</span> in <span class="math inline">\([-1,1]\)</span>, off-diagonals in <span class="math inline">\([-0.5,0.5]\)</span>, <span class="math inline">\(\gamma_{12}\in[-5,5]\)</span>, <span class="math inline">\(\nu_j\ge 10^{-6}\)</span>.</p>
+</section>
 </section>
 <section id="setup-and-simulation" class="level2">
 <h2 class="anchored" data-anchor-id="setup-and-simulation">Setup and simulation</h2>
@@ -3012,7 +3014,6 @@ print(knitr::kable(iteration_cv_status, row.names = FALSE,
 write.csv(iteration_fit_status, file.path("results", "iteration_fit_status.csv"), row.names = FALSE)
 write.csv(iteration_cv_status, file.path("results", "iteration_cv_status.csv"), row.names = FALSE)
 ``` -->
-</section>
 </section>
 </section>
 
